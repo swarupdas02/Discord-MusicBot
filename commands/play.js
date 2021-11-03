@@ -19,6 +19,7 @@ module.exports = {
    * @param {*} param3
    */
   run: async (client, message, args, { GuildDB }) => {
+    const prune = client.botconfig.Prune;
     if (!message.member.voice.channel)
       return client.sendTime(
         message.channel,
@@ -94,6 +95,7 @@ module.exports = {
           );
           //SongAddedEmbed.addField("Playlist duration", `\`${prettyMilliseconds(Searched.tracks, { colonNotation: true })}\``, false)
           Searching.edit(SongAddedEmbed);
+          Searching.delete({ timeout: prune });
         } else if (Searched.loadType.startsWith("TRACK")) {
           player.queue.add(
             TrackUtils.build(Searched.tracks[0], message.author)
@@ -117,6 +119,7 @@ module.exports = {
               true
             );
           Searching.edit(SongAddedEmbed);
+          Searching.delete({ timeout: prune });
         } else {
           return client.sendTime(
             message.channel,
@@ -165,6 +168,7 @@ module.exports = {
             false
           );
           Searching.edit(SongAddedEmbed);
+          Searching.delete({ timeout: prune });
         } else {
           player.queue.add(Searched.tracks[0]);
           if (!player.playing && !player.paused && !player.queue.size)
@@ -190,6 +194,7 @@ module.exports = {
               true
             );
           Searching.edit(SongAddedEmbed);
+          Searching.delete({ timeout: prune });
         }
       }
     } catch (e) {
