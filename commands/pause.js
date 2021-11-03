@@ -22,12 +22,12 @@ module.exports = {
     if (!player)
       return client.sendTime(
         message.channel,
-        "❌ | **Nothing is playing right now...**"
+        "☠️ | **I am not obeying a command at present...**"
       );
     if (!message.member.voice.channel)
       return client.sendTime(
         message.channel,
-        "❌ | **You must be in a voice channel to use this command!**"
+        "☠️ | **I've already been summoned elsewhere.**"
       );
     if (
       message.guild.me.voice.channel &&
@@ -35,12 +35,12 @@ module.exports = {
     )
       return client.sendTime(
         message.channel,
-        ":x: | **You must be in the same voice channel as me to use this command!**"
+        "☠️ | **I've already been summoned elsewhere.**"
       );
     if (player.paused)
       return client.sendTime(
         message.channel,
-        "❌ | **Music is already paused!**"
+        "☠️ | **Music is already paused!**"
       );
     player.pause(true);
     let embed = new MessageEmbed()
@@ -66,7 +66,7 @@ module.exports = {
       if (!member.voice.channel)
         return client.sendTime(
           interaction,
-          "❌ | **You must be in a voice channel to use this command.**"
+          "☠️ | **You must be within a channel to summon me.**"
         );
       if (
         guild.me.voice.channel &&
@@ -74,14 +74,14 @@ module.exports = {
       )
         return client.sendTime(
           interaction,
-          ":x: | **You must be in the same voice channel as me to use this command!**"
+          "☠️ | **I've already been summoned elsewhere.**"
         );
 
       let player = await client.Manager.get(interaction.guild_id);
       if (!player)
         return client.sendTime(
           interaction,
-          "❌ | **Nothing is playing right now...**"
+          "☠️ | **Nothing is playing right now...**"
         );
       if (player.paused)
         return client.sendTime(interaction, "Music is already paused!");

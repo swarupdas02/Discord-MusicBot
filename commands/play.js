@@ -23,7 +23,7 @@ module.exports = {
     if (!message.member.voice.channel)
       return client.sendTime(
         message.channel,
-        "❌ | **You must be in a voice channel to play something!**"
+        "☠️ | **You must be within a channel to summon me.**"
       );
     if (
       message.guild.me.voice.channel &&
@@ -31,7 +31,7 @@ module.exports = {
     )
       return client.sendTime(
         message.channel,
-        ":x: | **You must be in the same voice channel as me to use this command!**"
+        "☠️ | **I've already been summoned elsewhere.**"
       );
     let SearchString = args.join(" ");
     if (!SearchString)
@@ -40,11 +40,11 @@ module.exports = {
         `**Usage - **\`${GuildDB.prefix}play [song]\``
       );
     let CheckNode = client.Manager.nodes.get(client.botconfig.Lavalink.id);
-    let Searching = await message.channel.send(":mag_right: Searching...");
+    let Searching = await message.channel.send(":sparkles: Casting...");
     if (!CheckNode || !CheckNode.connected) {
       return client.sendTime(
         message.channel,
-        "❌ | **Lavalink node not connected**"
+        "☠️ | **Lavalink node not connected**"
       );
     }
     const player = client.Manager.create({
@@ -62,7 +62,7 @@ module.exports = {
     if (!player)
       return client.sendTime(
         message.channel,
-        "❌ | **Nothing is playing right now...**"
+        "☠️ | **I am not obeying a command at present...**"
       );
 
     if (player.state != "CONNECTED") await player.connect();
@@ -85,12 +85,12 @@ module.exports = {
           )
             player.play();
           SongAddedEmbed.setAuthor(
-            `Playlist added to queue`,
+            `As you command. Playlist queued.`,
             message.author.displayAvatarURL()
           );
           SongAddedEmbed.addField(
-            "Enqueued",
-            `\`${Searched.tracks.length}\` songs`,
+            "As you command. ",
+            `\`${Searched.tracks.length}\` songs queued.`,
             false
           );
           //SongAddedEmbed.addField("Playlist duration", `\`${prettyMilliseconds(Searched.tracks, { colonNotation: true })}\``, false)
@@ -102,19 +102,22 @@ module.exports = {
           );
           if (!player.playing && !player.paused && !player.queue.size)
             player.play();
-          SongAddedEmbed.setAuthor(`Added to queue`, client.botconfig.IconURL);
+          SongAddedEmbed.setAuthor(
+            `As you command, Enqueued.`,
+            client.botconfig.IconURL
+          );
           SongAddedEmbed.setDescription(
             `[${Searched.tracks[0].info.title}](${Searched.tracks[0].info.uri})`
           );
           SongAddedEmbed.addField(
-            "Author",
+            "Commanded by...",
             Searched.tracks[0].info.author,
             true
           );
           //SongAddedEmbed.addField("Duration", `\`${prettyMilliseconds(Searched.tracks[0].length, { colonNotation: true })}\``, true);
           if (player.queue.totalSize > 1)
             SongAddedEmbed.addField(
-              "Position in queue",
+              "Task priority",
               `${player.queue.size - 0}`,
               true
             );
@@ -123,7 +126,7 @@ module.exports = {
         } else {
           return client.sendTime(
             message.channel,
-            "**No matches found for - **" + SearchString
+            "**Please forgive me, I couldn't find -**" + SearchString
           );
         }
       } else {
@@ -131,13 +134,13 @@ module.exports = {
         if (!player)
           return client.sendTime(
             message.channel,
-            "❌ | **Nothing is playing right now...**"
+            "☠️ | **I am not obeying a command at present...**"
           );
 
         if (Searched.loadType === "NO_MATCHES")
           return client.sendTime(
             message.channel,
-            "**No matches found for - **" + SearchString
+            "**Please forgive me, I couldn't find -**" + SearchString
           );
         else if (Searched.loadType == "PLAYLIST_LOADED") {
           player.queue.add(Searched.tracks);
@@ -148,7 +151,7 @@ module.exports = {
           )
             player.play();
           SongAddedEmbed.setAuthor(
-            `Playlist added to queue`,
+            `As you command. Playlist queued.`,
             client.botconfig.IconURL
           );
           // SongAddedEmbed.setThumbnail(Searched.tracks[0].displayThumbnail());
@@ -156,12 +159,12 @@ module.exports = {
             `[${Searched.playlist.name}](${SearchString})`
           );
           SongAddedEmbed.addField(
-            "Enqueued",
-            `\`${Searched.tracks.length}\` songs`,
+            "As you command. ",
+            `\`${Searched.tracks.length}\` songs enqueued.`,
             false
           );
           SongAddedEmbed.addField(
-            "Playlist duration",
+            "My current tasks will last another ",
             `\`${prettyMilliseconds(Searched.playlist.duration, {
               colonNotation: true,
             })}\``,
@@ -173,13 +176,20 @@ module.exports = {
           player.queue.add(Searched.tracks[0]);
           if (!player.playing && !player.paused && !player.queue.size)
             player.play();
-          SongAddedEmbed.setAuthor(`Added to queue`, client.botconfig.IconURL);
+          SongAddedEmbed.setAuthor(
+            `As you command, Enqueued.`,
+            client.botconfig.IconURL
+          );
 
           // SongAddedEmbed.setThumbnail(Searched.tracks[0].displayThumbnail());
           SongAddedEmbed.setDescription(
             `[${Searched.tracks[0].title}](${Searched.tracks[0].uri})`
           );
-          SongAddedEmbed.addField("Author", Searched.tracks[0].author, true);
+          SongAddedEmbed.addField(
+            "Commanded by...",
+            Searched.tracks[0].author,
+            true
+          );
           SongAddedEmbed.addField(
             "Duration",
             `\`${prettyMilliseconds(Searched.tracks[0].duration, {
@@ -189,7 +199,7 @@ module.exports = {
           );
           if (player.queue.totalSize > 1)
             SongAddedEmbed.addField(
-              "Position in queue",
+              "Task priority",
               `${player.queue.size - 0}`,
               true
             );
@@ -231,7 +241,7 @@ module.exports = {
       if (!member.voice.channel)
         return client.sendTime(
           interaction,
-          "❌ | **You must be in a voice channel to use this command.**"
+          "☠️ | **You must be within a channel to summon me.**"
         );
       if (
         guild.me.voice.channel &&
@@ -239,7 +249,7 @@ module.exports = {
       )
         return client.sendTime(
           interaction,
-          ":x: | **You must be in the same voice channel as me to use this command!**"
+          "☠️ | **I've already been summoned elsewhere.**"
         );
       let CheckNode = client.Manager.nodes.get(client.botconfig.Lavalink.id);
       if (!CheckNode || !CheckNode.connected) {
@@ -285,7 +295,7 @@ module.exports = {
               player.play();
             let SongAddedEmbed = new MessageEmbed();
             SongAddedEmbed.setAuthor(
-              `Added to queue`,
+              `As you command, Enqueued.`,
               client.botconfig.IconURL
             );
             SongAddedEmbed.setColor(client.botconfig.EmbedColor);
@@ -293,13 +303,13 @@ module.exports = {
               `[${Searched.tracks[0].info.title}](${Searched.tracks[0].info.uri})`
             );
             SongAddedEmbed.addField(
-              "Author",
+              "Commanded by...",
               Searched.tracks[0].info.author,
               true
             );
             if (player.queue.totalSize > 1)
               SongAddedEmbed.addField(
-                "Position in queue",
+                "Task priority",
                 `${player.queue.size - 0}`,
                 true
               );
@@ -316,15 +326,22 @@ module.exports = {
             if (!player.playing && !player.paused && !player.queue.length)
               player.play();
             let SongAdded = new MessageEmbed();
-            SongAdded.setAuthor(`Added to queue`, client.botconfig.IconURL);
+            SongAdded.setAuthor(
+              `As you command, Enqueued.`,
+              client.botconfig.IconURL
+            );
             SongAdded.setColor(client.botconfig.EmbedColor);
             SongAdded.setDescription(
               `[${Searched.tracks[0].info.title}](${Searched.tracks[0].info.uri})`
             );
-            SongAdded.addField("Author", Searched.tracks[0].info.author, true);
+            SongAdded.addField(
+              "Commanded by...",
+              Searched.tracks[0].info.author,
+              true
+            );
             if (player.queue.totalSize > 1)
               SongAdded.addField(
-                "Position in queue",
+                "Task priority",
                 `${player.queue.size - 0}`,
                 true
               );
@@ -343,7 +360,7 @@ module.exports = {
               player.play();
             let Playlist = new MessageEmbed();
             Playlist.setAuthor(
-              `Playlist added to queue`,
+              `As you command. Playlist queued.`,
               client.botconfig.IconURL
             );
             Playlist.setDescription(
@@ -385,7 +402,7 @@ module.exports = {
               player.play();
             let SongAddedEmbed = new MessageEmbed();
             SongAddedEmbed.setAuthor(
-              `Added to queue`,
+              `As you command, Enqueued.`,
               client.botconfig.IconURL
             );
             //SongAddedEmbed.setThumbnail(res.tracks[0].displayThumbnail());
@@ -393,7 +410,11 @@ module.exports = {
             SongAddedEmbed.setDescription(
               `[${res.tracks[0].title}](${res.tracks[0].uri})`
             );
-            SongAddedEmbed.addField("Author", res.tracks[0].author, true);
+            SongAddedEmbed.addField(
+              "Commanded by...",
+              res.tracks[0].author,
+              true
+            );
             SongAddedEmbed.addField(
               "Duration",
               `\`${prettyMilliseconds(res.tracks[0].duration, {
@@ -403,7 +424,7 @@ module.exports = {
             );
             if (player.queue.totalSize > 1)
               SongAddedEmbed.addField(
-                "Position in queue",
+                "Task priority",
                 `${player.queue.size - 0}`,
                 true
               );
@@ -414,7 +435,7 @@ module.exports = {
             await player.play();
             let SongAdded = new MessageEmbed();
             SongAdded.setAuthor(
-              `Playlist added to queue`,
+              `As you command. Playlist queued.`,
               client.botconfig.IconURL
             );
             //SongAdded.setThumbnail(res.tracks[0].displayThumbnail());
@@ -422,12 +443,12 @@ module.exports = {
               `[${res.playlist.name}](${interaction.data.options[0].value})`
             );
             SongAdded.addField(
-              "Enqueued",
-              `\`${res.tracks.length}\` songs`,
+              "As you command. ",
+              `\`${res.tracks.length}\` songs enqueued.`,
               false
             );
             SongAdded.addField(
-              "Playlist duration",
+              "My current tasks will last another ",
               `\`${prettyMilliseconds(res.playlist.duration, {
                 colonNotation: true,
               })}\``,
@@ -441,13 +462,13 @@ module.exports = {
             if (!player.playing && !player.paused && !player.queue.length) {
               let SongAddedEmbed = new MessageEmbed();
               SongAddedEmbed.setAuthor(
-                `Added to queue`,
+                `As you command, Enqueued.`,
                 client.botconfig.IconURL
               );
               SongAddedEmbed.setThumbnail(track.displayThumbnail());
               SongAddedEmbed.setColor(client.botconfig.EmbedColor);
               SongAddedEmbed.setDescription(`[${track.title}](${track.uri})`);
-              SongAddedEmbed.addField("Author", track.author, true);
+              SongAddedEmbed.addField("Commanded by...", track.author, true);
               SongAddedEmbed.addField(
                 "Duration",
                 `\`${prettyMilliseconds(track.duration, {
@@ -457,7 +478,7 @@ module.exports = {
               );
               if (player.queue.totalSize > 1)
                 SongAddedEmbed.addField(
-                  "Position in queue",
+                  "Task priority",
                   `${player.queue.size - 0}`,
                   true
                 );
@@ -466,13 +487,13 @@ module.exports = {
             } else {
               let SongAddedEmbed = new MessageEmbed();
               SongAddedEmbed.setAuthor(
-                `Added to queue`,
+                `As you command, Enqueued.`,
                 client.botconfig.IconURL
               );
               SongAddedEmbed.setThumbnail(track.displayThumbnail());
               SongAddedEmbed.setColor(client.botconfig.EmbedColor);
               SongAddedEmbed.setDescription(`[${track.title}](${track.uri})`);
-              SongAddedEmbed.addField("Author", track.author, true);
+              SongAddedEmbed.addField("Commanded by...", track.author, true);
               SongAddedEmbed.addField(
                 "Duration",
                 `\`${prettyMilliseconds(track.duration, {
@@ -482,7 +503,7 @@ module.exports = {
               );
               if (player.queue.totalSize > 1)
                 SongAddedEmbed.addField(
-                  "Position in queue",
+                  "Task priority",
                   `${player.queue.size - 0}`,
                   true
                 );
