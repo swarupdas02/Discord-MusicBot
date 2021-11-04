@@ -40,13 +40,15 @@ module.exports = {
     if (player.paused)
       return client.sendTime(
         message.channel,
-        "☠️ | **Music is already paused!**"
+        "☠️ | **I'm still obeying the last command to pause.**"
       );
     player.pause(true);
     let embed = new MessageEmbed()
       .setAuthor(`Paused!`, client.botconfig.IconURL)
       .setColor(client.botconfig.EmbedColor)
-      .setDescription(`Type \`${GuildDB.prefix}resume\` to continue playing!`);
+      .setDescription(
+        `Command me with \`${GuildDB.prefix}resume\` and I shall return to my task.`
+      );
     await message.channel.send(embed);
     await message.react("✅");
   },
@@ -86,7 +88,7 @@ module.exports = {
       if (player.paused)
         return client.sendTime(interaction, "Music is already paused!");
       player.pause(true);
-      client.sendTime(interaction, "**⏸ Paused!**");
+      client.sendTime(interaction, "**⏸ | I will obey. Paused.**");
     },
   },
 };

@@ -223,7 +223,7 @@ module.exports = {
         value: "song",
         type: 3,
         required: true,
-        description: "Play music in the voice channel",
+        description: "Command me to join the lounge to play music for you.",
       },
     ],
     /**
@@ -255,7 +255,7 @@ module.exports = {
       if (!CheckNode || !CheckNode.connected) {
         return client.sendTime(
           interaction,
-          "❌ | **Lavalink node not connected**"
+          "☠️ | **Lavalink node not connected**"
         );
       }
 
@@ -280,14 +280,14 @@ module.exports = {
             if (!player.queue.current) player.destroy();
             return client.sendError(
               interaction,
-              `❌ | **There was an error while searching**`
+              `☠️ | **Please forgive me, I made a mistake during my search.**`
             );
 
           case "NO_MATCHES":
             if (!player.queue.current) player.destroy();
             return client.sendTime(
               interaction,
-              "❌ | **No results were found.**"
+              "☠️ | **No results were found.**"
             );
           case "TRACK_LOADED":
             player.queue.add(TrackUtils.build(Searched.tracks[0], member.user));
@@ -380,13 +380,13 @@ module.exports = {
             if (!player.queue.current) player.destroy();
             return client.sendError(
               interaction,
-              `:x: | **There was an error while searching**`
+              `☠️ | **Please forgive me, I made a mistake during my search.**`
             );
           }
         } catch (err) {
           return client.sendError(
             interaction,
-            `There was an error while searching: ${err.message}`
+            `Please forgive me, I made a mistake during my search.: ${err.message}`
           );
         }
         switch (res.loadType) {
@@ -394,7 +394,7 @@ module.exports = {
             if (!player.queue.current) player.destroy();
             return client.sendTime(
               interaction,
-              "❌ | **No results were found.**"
+              "☠️ | **No results were found.**"
             );
           case "TRACK_LOADED":
             player.queue.add(res.tracks[0]);
