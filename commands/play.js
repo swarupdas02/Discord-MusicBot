@@ -19,6 +19,7 @@ module.exports = {
    * @param {*} param3
    */
   run: async (client, message, args, { GuildDB }) => {
+    const prune = client.botconfig.Prune;
     if (!message.member.voice.channel)
       return client.sendTime(
         message.channel,
@@ -94,6 +95,7 @@ module.exports = {
           );
           //SongAddedEmbed.addField("Playlist duration", `\`${prettyMilliseconds(Searched.tracks, { colonNotation: true })}\``, false)
           Searching.edit(SongAddedEmbed);
+          Searching.delete({ timeout: prune });
         } else if (Searched.loadType.startsWith("TRACK")) {
           player.queue.add(
             TrackUtils.build(Searched.tracks[0], message.author)
@@ -117,6 +119,7 @@ module.exports = {
               true
             );
           Searching.edit(SongAddedEmbed);
+          Searching.delete({ timeout: prune });
         } else {
           return client.sendTime(
             message.channel,
@@ -165,6 +168,7 @@ module.exports = {
             false
           );
           Searching.edit(SongAddedEmbed);
+          Searching.delete({ timeout: prune });
         } else {
           player.queue.add(Searched.tracks[0]);
           if (!player.playing && !player.paused && !player.queue.size)
@@ -190,6 +194,7 @@ module.exports = {
               true
             );
           Searching.edit(SongAddedEmbed);
+          Searching.delete({ timeout: prune });
         }
       }
     } catch (e) {
@@ -298,7 +303,13 @@ module.exports = {
                 `${player.queue.size - 0}`,
                 true
               );
-            return interaction.send(SongAddedEmbed);
+            //return interaction.send(SongAddedEmbed);
+            return interaction
+              .send(SongAddedEmbed)
+              .then((msg) => {
+                msg.delete({ timeout: 10000 });
+              })
+              .catch(console.error);
 
           case "SEARCH_RESULT":
             player.queue.add(TrackUtils.build(Searched.tracks[0], member.user));
@@ -398,7 +409,7 @@ module.exports = {
               );
             return interaction.send(SongAddedEmbed);
 
-           case "PLAYLIST_LOADED":
+          case "PLAYLIST_LOADED":
             player.queue.add(res.tracks);
             await player.play();
             let SongAdded = new MessageEmbed();

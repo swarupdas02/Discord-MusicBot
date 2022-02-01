@@ -1,10 +1,15 @@
 module.exports = {
-  Admins: [
-    "323130717808754688",
-    "171308954633240578",
-    "687672297804267520",
-    "665722059589943297",
-  ], //Admins of the bot [Ignoramous, 5LOTH, Paul, Raldor]
+  Admins: process.env.BOT_ADMINS.split(",") || [
+    "323130717808754688", //Ignoramus
+    "171308954633240578", // 5LOTH
+    "687672297804267520", // Paul
+    "665722059589943297", // Raldor
+  ],
+  DJ: process.env.DJ.split(",") || [
+    "740630695373963334", // Lich
+    "898215498146250822", // Guardian
+    "740630138873577544", // Necromancer
+  ],
   ExpressServer: process.env.EXPRESS_SERVER || false, //If you wanted to make the website run or not
   DefaultPrefix: process.env.PREFIX || "!", //Default prefix, Server Admins can change the prefix
   Port: Number(process.env.PORT) || 3000, //Which port website gonna be hosted
@@ -19,10 +24,11 @@ module.exports = {
   "24/7": false, //If you want the bot to be stay in the vc 24/7
   CookieSecret: process.env.COOKIESECRET || "Pikachu is cute", //A Secret like a password
   IconURL:
-    "https://raw.githubusercontent.com/SudhanPlayz/Discord-MusicBot/master/assets/logo.gif", //URL of all embed author icons | Dont edit unless you dont need that Music CD Spining
+    "https://raw.githubusercontent.com/SudhanPlayz/Discord-MusicBot/master/assets/logo.gif", //URL of all embed author icons | Dont edit unless you dont need that Music CD Spinning
   EmbedColor: process.env.EMBEDCOLOR || "RANDOM", //Color of most embeds | Dont edit unless you want a specific color instead of a random one each time
   Permissions: process.env.PERMISSIONS || 2205281600, //Bot Inviting Permissions
-  Website: process.env.WEBSITE || "http://localhost", //Website where it was hosted at includes http or https || Use "0.0.0.0" if you using Heroku
+  Website: process.env.WEBSITE || "http://localhost", //Website where it was hosted at includes http or https || Use "0.0.0.0" if you're using Heroku
+  Prune: Number(process.env.PRUNE) || 10000,
 
   Presence: {
     status: process.env.DISCORD_ONLINE_STATUS || "online", // You can show online, idle, and dnd
