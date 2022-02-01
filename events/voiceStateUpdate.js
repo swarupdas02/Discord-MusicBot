@@ -69,12 +69,12 @@ module.exports = async (client, oldState, newState) => {
       break;
     case "LEAVE":
       if (stateChange.members.size === 0 && !player.paused && player.playing) {
-        player.pause(true);
+        player.destroy();
 
         let emb = new MessageEmbed()
-          .setAuthor(`Paused!`, client.botconfig.IconURL)
+          .setAuthor(`Disconnecting!`, client.botconfig.IconURL)
           .setColor(client.botconfig.EmbedColor)
-          .setDescription(`The player has been paused because everybody left`);
+          .setDescription(`The player has been disconnected because everybody left`);
         await client.channels.cache.get(player.textChannel).send(emb);
       }
       break;
