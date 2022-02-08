@@ -33,6 +33,18 @@ module.exports = {
         message.channel,
         ":x: | **You must be in the same voice channel as me to use this command!**"
       );
+      //experimental code
+            // message.guild.me.voice.channel &&
+      // message.member.voice.channel.id !== message.guild.me.voice.channel.id
+    if (
+      message.guild.me.voice.channel &&
+      message.guild.members.cache.get(config.Conflict).voice.channel.id == message.guild.me.voice.channel.id
+    )
+      return client.sendTime(
+        message.channel,
+        ":x: | **There is already a bot in this channel!**"
+      );
+      //end of experimental code
     let SearchString = args.join(" ");
     if (!SearchString)
       return client.sendTime(
