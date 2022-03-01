@@ -9,6 +9,9 @@ module.exports = {
     "740630695373963334", // Lich
     "898215498146250822", // Guardian
     "740630138873577544", // Necromancer
+    "947953815909445672", // Hollow
+    "740630795684675624", // Ghoul
+    "740630795613634651", // Wight
   ],
   ExpressServer: process.env.EXPRESS_SERVER || false, //If you wanted to make the website run or not
   DefaultPrefix: process.env.PREFIX || "!", //Default prefix, Server Admins can change the prefix
@@ -29,6 +32,7 @@ module.exports = {
   Permissions: process.env.PERMISSIONS || 2205281600, //Bot Inviting Permissions
   Website: process.env.WEBSITE || "http://localhost", //Website where it was hosted at includes http or https || Use "0.0.0.0" if you're using Heroku
   Prune: Number(process.env.PRUNE) || 10000,
+  Conflict: Number(process.env.CONFLICT) || 0 //ID of the bot that it is mutually exclusive to
 
   Presence: {
     status: process.env.DISCORD_ONLINE_STATUS || "online", // You can show online, idle, and dnd
