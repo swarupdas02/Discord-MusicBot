@@ -22,13 +22,17 @@ else
 		git fetch -a
 		git reset --hard
 		git pull
+		if [ -f "/config/bot/guild.json" ]; then
+			echo "Removing existing guild.json"
+			rm /config/bot/guild.json
+		fi
 	fi
 	rm /config/starting.txt
 fi
 
 cd /config/bot
 
-chmod -R 777 /config
+chmod 777 /config/start.sh
 
 echo -e "\nStarting bot\n"
 node ./index.js
